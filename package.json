@@ -1,0 +1,19 @@
+{
+  "name": "presenter",
+  "version": "1.0.0",
+  "description": "Generate slide presentation from music lyrics",
+  "main": "dist/index.js",
+  "author": "Guilherme Balog Gardino <guibalog@gmail.com> (https://guilhermebalog.ga)",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "start": "dist/index.js",
+    "dev": "ts-node-dev --respawn --transpile-only --ignore-watch node_modules src/index.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^16.10.2",
+    "ts-node-dev": "^1.1.8",
+    "typescript": "^4.4.3"
+  }
+}
