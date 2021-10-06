@@ -1,10 +1,11 @@
-export interface SlideMaker {
-  writeText(text: string): void
-  getSlideWidth(): number
-  getSlideHeight(): number
+export abstract class SlideMaker {
+  abstract writeText(text: string): void
 
-  getTextWidth(text: string): number
-  getTextHeigh(text: string): number
+  abstract getSlideHeight(): number
 
-  newSlide(): void
+  abstract getTextHeigh(text: string): number
+
+  public doesTextFit(text: string) {
+    return this.getTextHeigh(text) <= this.getSlideHeight()
+  }
 }

@@ -1,19 +1,19 @@
 
 import { readFile } from "fs/promises"
 import { join } from "path"
+import { Presenter } from "./Presenter"
 import { TextSlideMaker } from "./TextSlideMaker"
 
-const VERSE_SEPARATOR = "\n\n"
+const powerpoint = new TextSlideMaker(70, 6)
+const presenter = new Presenter(powerpoint)
 
 async function readLyrics() {
-  const powerpoint = new TextSlideMaker()
   const lyricsPath = join(__dirname, "lyrics.example")
   const lyricsBuffer = await readFile(lyricsPath)
   const lyrics = lyricsBuffer.toString("utf-8")
 
-  const verses = lyrics.split(VERSE_SEPARATOR)
-
-  verses.forEach(verse => console.log(powerpoint.makeSlide(verse)))
+  presenter.writeLyrics(lyrics)
+  powerpoint.showSlides()
 }
 
 readLyrics()

@@ -1,8 +1,6 @@
 import { SlideMaker } from "./SlideMaker"
 
-export class TextSlideMaker implements SlideMaker {
-  private readonly WIDTH = 50
-  private readonly HEIGHT = 10
+export class TextSlideMaker extends SlideMaker {
   private readonly TOP_LEFT_CORNER_CHAR = "┌"
   private readonly TOP_RIGHT_CORNER_CHAR = "┐"
   private readonly BOTTOM_LEFT_CORNER_CHAR = "└"
@@ -11,50 +9,43 @@ export class TextSlideMaker implements SlideMaker {
   private readonly VERTICAL_CHAR = "│"
   private readonly BLANK_CHAR = " "
 
+  private width: number
+  private height: number
   private slides: string[]
-  private currentSlide: number
 
-  constructor() {
+  constructor(width: number, height: number) {
+    super()
+    this.width = width
+    this.height = height
     this.slides = []
-    this.currentSlide = -1
   }
 
   public writeText(text: string){
-    this.slides[this.currentSlide] = text
-  }
-
-
-  public getSlideWidth() {
-    return this.WIDTH
+    this.slides.push(text)
   }
 
   public getSlideHeight() {
-    return this.HEIGHT
-  }
-
-  public getTextWidth(text: string) {
-    const maxLineLength = text
-      .split('\n')
-      .reduce((maxLength, sentence) => Math.max(maxLength, sentence.length), 0)
-
-    return Math.min(maxLineLength, this.WIDTH)
+    return this.height
   }
 
   public getTextHeigh(text: string) {
     return text
       .split('\n')
       .reduce((total, sentence) => {
-        return total +  Math.ceil(sentence.length / this.WIDTH)
+        return total +  Math.ceil(sentence.length / this.width)
       }, 0)
   }
 
-  public newSlide() {
-    this.slides.push("")
-    this.currentSlide = this.slides.length - 1
+  public showSlides() {
+    this.slides.forEach((slide, slideId) => {
+      console.log(` Slide #${slideId}`)
+      console.log(this.makeSlide(slide))
+    })
   }
 
-  public makeSlide(content: string) {
+  private makeSlide(content: string) {
     let slide = ''
+
     slide += this.createTopLine()
     slide += this.createContentLines(content)
     slide += this.createBottomLine()
@@ -68,20 +59,20 @@ export class TextSlideMaker implements SlideMaker {
     const contentLines = content.split('\n')
 
     contentLines.forEach(line => {
-      if(lineCount >= this.HEIGHT) return;
+      if(lineCount >= this.height) return;
 
-      const totalLines = Math.ceil(line.length / this.WIDTH)
+      const totalLines = Math.ceil(line.length / this.width)
 
       for (let index = 0; index < totalLines; index++) {
-        if(lineCount >= this.HEIGHT) break;
-        const start = index * this.WIDTH
-        slideLines += this.createTextLine(line.slice(start, start + this.WIDTH))
+        if(lineCount >= this.height) break;
+        const start = index * this.width
+        slideLines += this.createTextLine(line.slice(start, start + this.width))
         lineCount++
       }
     })
 
-    if(lineCount < this.HEIGHT) {
-      slideLines += this.createBlankLine().repeat(this.HEIGHT - lineCount)
+    if(lineCount < this.height) {
+      slideLines += this.createBlankLine().repeat(this.height - lineCount)
     }
 
     return slideLines
@@ -89,8 +80,9 @@ export class TextSlideMaker implements SlideMaker {
 
   private createTopLine() {
     let topLine = ''
+
     topLine += this.TOP_LEFT_CORNER_CHAR
-    topLine += this.HORIZONTAL_CHAR.repeat(this.WIDTH)
+    topLine += this.HORIZONTAL_CHAR.repeat(this.width)
     topLine += this.TOP_RIGHT_CORNER_CHAR
     topLine += '\n'
 
@@ -99,8 +91,9 @@ export class TextSlideMaker implements SlideMaker {
 
   private createBottomLine() {
     let bottomLine = ''
+
     bottomLine += this.BOTTOM_LEFT_CORNER_CHAR
-    bottomLine += this.HORIZONTAL_CHAR.repeat(this.WIDTH)
+    bottomLine += this.HORIZONTAL_CHAR.repeat(this.width)
     bottomLine += this.BOTTOM_RIGHT_CORNER_CHAR
     bottomLine += '\n'
 
@@ -108,12 +101,25 @@ export class TextSlideMaker implements SlideMaker {
   }
 
   private createBlankLine() {
-    return this.VERTICAL_CHAR + this.BLANK_CHAR.repeat(this.WIDTH) + this.VERTICAL_CHAR + '\n'
+    let blankLine = ''
+
+    blankLine += this.VERTICAL_CHAR
+    blankLine += this.BLANK_CHAR.repeat(this.width)
+    blankLine += this.VERTICAL_CHAR
+    blankLine += '\n'
+
+    return blankLine
   }
 
   private createTextLine(text: string) {
-    return this.VERTICAL_CHAR + text.trim().padEnd(this.WIDTH, this.BLANK_CHAR) + /*this.BLANK_CHAR.repeat(this.WIDTH) +*/ this.VERTICAL_CHAR + '\n'
-  }
+    let textLine = ''
 
+    textLine += this.VERTICAL_CHAR
+    textLine += text.trim().padEnd(this.width, this.BLANK_CHAR)
+    textLine += this.VERTICAL_CHAR
+    textLine += '\n'
+
+    return textLine
+  }
 
 }
