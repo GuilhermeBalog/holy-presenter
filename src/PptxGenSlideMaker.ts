@@ -4,6 +4,7 @@ import { SlideMaker } from "./SlideMaker";
 
 export class PptxGenSlideMaker extends SlideMaker {
   private readonly FONT_SIZE = 50
+  private readonly SENTENCE_SEPARATOR = '\n'
 
   private presentation: PptxGen
   private width: number
@@ -54,7 +55,7 @@ export class PptxGenSlideMaker extends SlideMaker {
 
   getTextHeigh(text: string) {
     const numberOfLines = text
-      .split('\n')
+      .split(this.SENTENCE_SEPARATOR)
       .reduce((total, sentence) => {
         return total + Math.ceil(sentence.length * this.FONT_SIZE / this.width)
       }, 0)
