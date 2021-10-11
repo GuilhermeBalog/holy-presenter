@@ -1,13 +1,20 @@
 import { SlideMaker } from "./SlideMaker"
 
 export class Presenter {
-  private slideMaker: SlideMaker
   private readonly VERSE_SEPARATOR = '\n\n'
   private readonly SENTENCE_SEPARATOR = '\n'
   private readonly WORD_SEPARATOR = ' '
 
+  private slideMaker: SlideMaker
+  private slideCount: number
+
   constructor(slideMaker: SlideMaker) {
     this.slideMaker = slideMaker
+    this.slideCount = 0
+  }
+
+  public getSlideCount() {
+    return this.slideCount
   }
 
   public writeLyrics(lyrics: string) {
@@ -16,27 +23,35 @@ export class Presenter {
 
     let i = 0
     while(i < verses.length) {
-      const concat = [...versesToBeWritten, verses[i]]
+      const previousVersesWithCurrentVerses = [...versesToBeWritten, verses[i]]
+      const candidateTextToBeWritten = previousVersesWithCurrentVerses.join(this.VERSE_SEPARATOR)
 
-      if(this.slideMaker.doesTextFit(concat.join(this.VERSE_SEPARATOR))) {
+      if(this.slideMaker.doesTextFit(candidateTextToBeWritten)) {
         versesToBeWritten.push(verses[i])
         i++
         continue
       }
 
       if(versesToBeWritten.length == 0) {
-        verses = verses.flatMap((verse, j) => {
-          return i == j ? this.splitVerseInHalf(verses[i]) : verse
-        })
-
+        verses = this.splitVerseAtPosition(verses, i)
         continue
       }
 
       this.slideMaker.writeText(versesToBeWritten.join(this.VERSE_SEPARATOR))
+      this.slideCount++
       versesToBeWritten = []
     }
 
-    this.slideMaker.writeText(versesToBeWritten.join(this.VERSE_SEPARATOR))
+    if(versesToBeWritten.length > 0) {
+      this.slideMaker.writeText(versesToBeWritten.join(this.VERSE_SEPARATOR))
+      this.slideCount++
+    }
+  }
+
+  private splitVerseAtPosition(verses: string[], i: number) {
+    return verses.flatMap((verse, j) => {
+      return i == j ? this.splitVerseInHalf(verses[i]) : verse
+    })
   }
 
   private splitLyricInVerses(lyrics: string) {
