@@ -72,3 +72,18 @@ test('Given a lyrics with one sentence that does not fit in one slide it should 
 
   expect(presenter.getSlideCount()).toBe(2)
 })
+
+test('Given a lyrics with one word that does not fit in one slide it should make two slides', () => {
+  const width = 10
+  const height = 6
+
+  const textSlideMaker = new TextSlideMaker(width, height)
+  const presenter = new Presenter(textSlideMaker)
+
+  const lyrics = "ThisIsASampleLyricsWithAVeryLongWordSoItDoesNotNeedToMakeSense!"
+
+  presenter.writeLyrics(lyrics)
+  textSlideMaker.showSlides()
+
+  expect(presenter.getSlideCount()).toBe(2)
+})

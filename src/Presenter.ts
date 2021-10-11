@@ -4,6 +4,7 @@ export class Presenter {
   private readonly VERSE_SEPARATOR = '\n\n'
   private readonly SENTENCE_SEPARATOR = '\n'
   private readonly WORD_SEPARATOR = ' '
+  private readonly LETTER_SEPARATOR = ''
 
   private slideMaker: SlideMaker
   private slideCount: number
@@ -64,8 +65,10 @@ export class Presenter {
   private splitVerseInHalf(verse: string) {
     if(verse.includes(this.SENTENCE_SEPARATOR)){
       return this.splitInHalf(verse, this.SENTENCE_SEPARATOR)
-    } else {
+    } else if(verse.includes(this.WORD_SEPARATOR)) {
       return this.splitInHalf(verse, this.WORD_SEPARATOR)
+    } else {
+      return this.splitInHalf(verse, this.LETTER_SEPARATOR)
     }
   }
 
