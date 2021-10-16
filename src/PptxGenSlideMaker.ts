@@ -36,12 +36,18 @@ export class PptxGenSlideMaker extends SlideMaker {
 
   writeText(text: string) {
     const slide = this.presentation.addSlide()
+    const excerpts: PptxGen.TextProps[] = text.split(/{|}/).map((excerpt, i) => ({
+      text: excerpt,
+      options: {
+        bold: i % 2 != 0
+      }
+    }))
 
-    slide.addText(text, {
-      x: "5%",
-      y: "5%",
-      w: "90%",
-      h: "90%",
+    slide.addText(excerpts, {
+      x: "2.5%",
+      y: "2.5%",
+      w: "95%",
+      h: "95%",
       color: "000000",
       lang: "pt-BR",
       fontFace: "Arial",

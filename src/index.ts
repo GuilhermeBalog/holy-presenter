@@ -1,10 +1,13 @@
+import { Prayer } from "./Prayer"
 import { PptxGenSlideMaker } from "./PptxGenSlideMaker"
 import { Presenter } from "./Presenter"
 
-import lyricsFile from './lyrics.json'
+import preyerFile from './resources/eucharistic-prayers/viii.json'
 
 const powerpoint = new PptxGenSlideMaker()
 const presenter = new Presenter(powerpoint)
+const prayer = new Prayer(presenter)
 
-presenter.writeLyrics(lyricsFile.lyrics)
+prayer.writeEucharisticPrayer(preyerFile)
+
 powerpoint.showSlides()
