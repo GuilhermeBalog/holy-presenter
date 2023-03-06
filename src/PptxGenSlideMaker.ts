@@ -1,3 +1,4 @@
+import path from "node:path";
 import PptxGen from "pptxgenjs";
 
 import { SlideMaker } from "./SlideMaker";
@@ -48,11 +49,47 @@ export class PptxGenSlideMaker extends SlideMaker {
       y: "2.5%",
       w: "95%",
       h: "95%",
-      color: "000000",
+      color: "333333",
       lang: "pt-BR",
       fontFace: "Arial",
       fontSize: this.FONT_SIZE,
+      autoFit: true,
+      lineSpacing: 45
     })
+  }
+
+  makeFirstSlide() {
+    const title = 'Missa do 23º Domingo do Tempo Comum';
+    const backgroundColor = 'FFFFFF';
+    const textColor = "000000";
+    const imagePath = path.join(__dirname, 'resources/images/matriz.jpg');
+
+    this.presentation
+      .addSlide()
+      .addImage({
+        path: imagePath,
+        x: 0,
+        y: 0,
+        w: '100%',
+        h: '100%'
+      })
+      .addText(title, {
+        x: 0,
+        y: 0,
+        margin: [10, 10, 1, 1],
+        align: 'center',
+        bold: true,
+        fit: 'shrink',
+        w: '100%',
+        h: 1,
+        color: textColor,
+        lang: "pt-BR",
+        fontFace: "Arial",
+        fontSize: 50,
+        fill: {
+          color: backgroundColor,
+        }
+      })
   }
 
   getSlideHeight() {
@@ -70,9 +107,20 @@ export class PptxGenSlideMaker extends SlideMaker {
   }
 
   showSlides() {
-    console.log("saving...")
-    this.presentation.writeFile().then(fileName => {
-      console.log(fileName, "saved")
-    })
+    const d = new Date();
+    const [year, month, day, hour, minutes] = [
+      d.getFullYear(),
+      (d.getMonth() + 1).toString().padStart(2, '0'),
+      d.getDate().toString().padStart(2, '0'),
+      d.getHours().toString().padStart(2, '0'),
+      d.getMinutes().toString().padStart(2, '0'),
+    ];
+
+    const fileName = `presentation-${year}${month}${day}-${hour}${minutes}`;
+
+    this.presentation.writeFile({ fileName })
+      .then(fileName => {
+        console.log(fileName, "saved")
+      })
   }
 }

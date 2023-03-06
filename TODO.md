@@ -1,0 +1,35 @@
+# To - Do
+
+- Classe pra criar slides das partes da missa
+  - Slide inicial
+    - Título da missa (23º Domingo do Tempo Comum)
+    - Foto da matriz de fundo
+    - Título por parâmetro
+    - Subtítulo Opcional
+  - Leituras/Evangelho
+    - Foto da bíblia de fundo
+    - Título da leitura (Mt, 4, 2-10)
+  - Preces
+    - Texto normal com a resposta
+  - Oração Eucarística
+    - Seletor de oração
+    - Todas estaticamente preparadas
+- Método para fazer apresentação completa
+  - prioridade:
+    - passar os cantos
+    - passar qual oração eucarística
+  - seria legal
+    - passar o titulo da missa
+    - passar o título da 1ª leitura
+    - passar o título da 2ª leitura
+    - passar o título do evangelho
+    - resposta das preces
+- Interface amigável
+  - página web
+    - formulário de músicas
+      - Função (entrada, gloria, etc...)
+      - Letra
+    - oração eucarística
+    - preview?
+  - aplicativo
+  - desktop

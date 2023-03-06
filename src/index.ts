@@ -8,6 +8,8 @@ const powerpoint = new PptxGenSlideMaker()
 const presenter = new Presenter(powerpoint)
 const prayer = new Prayer(presenter)
 
+powerpoint.makeFirstSlide()
+
 prayer.writeEucharisticPrayer(preyerFile)
 
 powerpoint.showSlides()
