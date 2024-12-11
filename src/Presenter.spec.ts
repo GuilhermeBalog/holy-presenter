@@ -1,5 +1,5 @@
-import { Presenter } from "./Presenter"
-import { TextSlideMaker } from "./TextSlideMaker"
+import { Presenter } from "./Presenter.js"
+import { TextSlideMaker } from "./TextSlideMaker.js"
 
 test('Given a lyrics with one verse that fits in one slide it should make a single slide', () => {
   const width = 25

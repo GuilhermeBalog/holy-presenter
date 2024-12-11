@@ -1,6 +1,8 @@
 export abstract class SlideMaker {
   abstract writeText(text: string): void
 
+  abstract addBlankSlide(): void
+
   abstract getSlideHeight(): number
 
   abstract getTextHeigh(text: string): number

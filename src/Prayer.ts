@@ -1,4 +1,4 @@
-import { Presenter } from "./Presenter";
+import { Presenter } from "./Presenter.js";
 
 export class Prayer {
   private presenter: Presenter

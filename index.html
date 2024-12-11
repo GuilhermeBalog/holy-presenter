@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Auto Presenter</title>
+
+  <style>
+    * {box-sizing: border-box;}
+    body, html {margin: 0; padding: 0;}
+
+    body {
+      font-family: sans-serif;
+    }
+
+    input, textarea {
+      font: inherit;
+      padding: 0.2rem;
+    }
+
+    textarea {
+      width: 100%;
+    }
+
+    header {
+      background-color: #eee;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    h1 {
+      margin: 0
+    }
+
+    main {
+      max-width: 800px;
+      margin-inline: auto;
+      padding: 2rem;
+    }
+
+    form .form-group {
+      margin-bottom: 1rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Criar apresentação</h1>
+  </header>
+  <main>
+
+    <form>
+      <!-- <div class="form-group">
+        <label for="title">Título</label>
+        <input type="text" name="title" id="title" placeholder="Digite o título da apresentação" value="Titulo">
+      </div> -->
+      <div class="form-group" id="songs-container">
+        <div class="form-group">
+          <label for="song-1">Música 1</label>
+          <textarea name="songs" id="song-1" placeholder="Digite o conteúdo"></textarea>
+        </div>
+      </div>
+      <button type="button" id="add-song">+ Adicionar música</button>
+      <button type="submit">Gerar Apresentação</button>
+    </form>
+  </main>
+
+  <template id="song-input-template">
+    <div class="form-group">
+      <label for="song-{id}">Música {id}</label>
+      <textarea name="songs" id="song-{id}" placeholder="Digite o conteúdo"></textarea>
+    </div>
+  </template>
+
+  <script type="module">
+    import { PptxGenSlideMaker } from "./dist/PptxGenSlideMaker.js";
+    import { Presenter } from "./dist/Presenter.js";
+
+    document.addEventListener('DOMContentLoaded', () => {
+      window.ui = new PresenterUI();
+    });
+
+    class PresenterUI {
+      constructor() {
+        this.$form = document.querySelector('form');
+        this.$addSongBtn = this.$form.querySelector('#add-song');
+        this.$songsContainer = this.$form.querySelector('#songs-container');
+        this.$songInputTemplate = document.querySelector("#song-input-template");
+
+        this.songs = 1;
+
+        this.#registerListeners();
+      }
+
+      #registerListeners() {
+        this.$form.addEventListener('submit', this.#handleSubmit.bind(this));
+        this.$addSongBtn.addEventListener('click', this.#handleAdd.bind(this));
+      }
+
+      #handleSubmit(e) {
+        e.preventDefault();
+
+        const formData = new FormData(e.target);
+        const data = parseFormData(formData);
+
+        const powerpoint = new PptxGenSlideMaker();
+        const presenter = new Presenter(powerpoint);
+
+        data.songs.forEach(song => {
+          if(!song) return;
+
+          presenter.writeLyrics(song);
+          powerpoint.addBlankSlide();
+        });
+
+        powerpoint.showSlides();
+      }
+
+      #handleAdd() {
+        const $songInput = this.#createSongInput(this.songs + 1);
+        this.$songsContainer.appendChild($songInput);
+
+        this.songs++;
+      }
+
+      #createSongInput(id) {
+        const $clone = this.$songInputTemplate.content.cloneNode(true);
+        const $label = $clone.querySelector('label');
+        const $textarea = $clone.querySelector('textarea');
+
+        bindProp($label, 'htmlFor');
+        bindProp($label, 'innerText');
+        bindProp($textarea, 'id');
+
+        return $clone;
+
+        function bindProp($el, attr) {
+          $el[attr] = bindId($el[attr])
+        }
+
+        function bindId(text) {
+          return text.replace(/\{id\}/g, id);
+        }
+      }
+    }
+
+    function parseFormData(formData) {
+      const result = {};
+
+      for (const [key, value] of formData.entries()) {
+        if (result[key] !== undefined) {
+          result[key] = [result[key], value].flat();
+        } else {
+          result[key] = value;
+        }
+      }
+
+      return result;
+    }
+  </script>
+</body>
+</html>

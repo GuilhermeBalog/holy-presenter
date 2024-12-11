@@ -1,10 +1,9 @@
-import path from "node:path";
 import PptxGen from "pptxgenjs";
 
-import { SlideMaker } from "./SlideMaker";
+import { SlideMaker } from "./SlideMaker.js";
 
 export class PptxGenSlideMaker extends SlideMaker {
-  private readonly FONT_SIZE = 50
+  private readonly FONT_SIZE = 55
   private readonly SENTENCE_SEPARATOR = '\n'
 
   private presentation: PptxGen
@@ -15,7 +14,7 @@ export class PptxGenSlideMaker extends SlideMaker {
     super()
     this.presentation = new PptxGen();
 
-    const presentationLayout = this.presentation.presLayout as unknown as PptxGen.PresLayout
+    const presentationLayout = this.presentation.presLayout
     const { width, height } = this.normalizeDimensions(presentationLayout)
     this.width = width
     this.height = height
@@ -54,42 +53,45 @@ export class PptxGenSlideMaker extends SlideMaker {
       fontFace: "Arial",
       fontSize: this.FONT_SIZE,
       autoFit: true,
-      lineSpacing: 45
     })
   }
 
-  makeFirstSlide() {
-    const title = 'Missa do 23º Domingo do Tempo Comum';
-    const backgroundColor = 'FFFFFF';
-    const textColor = "000000";
-    const imagePath = path.join(__dirname, 'resources/images/matriz.jpg');
+  addBlankSlide() {
+    this.presentation.addSlide()
+  }
 
-    this.presentation
-      .addSlide()
-      .addImage({
-        path: imagePath,
-        x: 0,
-        y: 0,
-        w: '100%',
-        h: '100%'
-      })
-      .addText(title, {
-        x: 0,
-        y: 0,
-        margin: [10, 10, 1, 1],
-        align: 'center',
-        bold: true,
-        fit: 'shrink',
-        w: '100%',
-        h: 1,
-        color: textColor,
-        lang: "pt-BR",
-        fontFace: "Arial",
-        fontSize: 50,
-        fill: {
-          color: backgroundColor,
-        }
-      })
+  makeFirstSlide() {
+    // const title = 'Missa do 23º Domingo do Tempo Comum';
+    // const backgroundColor = 'FFFFFF';
+    // const textColor = "000000";
+    // const imagePath = path.join(__dirname, 'resources/images/matriz.jpg');
+
+    // this.presentation
+    //   .addSlide()
+    //   .addImage({
+    //     path: imagePath,
+    //     x: 0,
+    //     y: 0,
+    //     w: '100%',
+    //     h: '100%'
+    //   })
+    //   .addText(title, {
+    //     x: 0,
+    //     y: 0,
+    //     margin: [10, 10, 1, 1],
+    //     align: 'center',
+    //     bold: true,
+    //     fit: 'shrink',
+    //     w: '100%',
+    //     h: 1,
+    //     color: textColor,
+    //     lang: "pt-BR",
+    //     fontFace: "Arial",
+    //     fontSize: 50,
+    //     fill: {
+    //       color: backgroundColor,
+    //     }
+    //   })
   }
 
   getSlideHeight() {
@@ -101,7 +103,7 @@ export class PptxGenSlideMaker extends SlideMaker {
       .split(this.SENTENCE_SEPARATOR)
       .reduce((total, sentence) => {
         return total + Math.ceil(sentence.length * this.FONT_SIZE / this.width)
-      }, 0)
+      }, 0);
 
     return numberOfLines * this.FONT_SIZE;
   }

@@ -1,15 +1,17 @@
-import { Prayer } from "./Prayer"
-import { PptxGenSlideMaker } from "./PptxGenSlideMaker"
-import { Presenter } from "./Presenter"
+// import { Prayer } from "./Prayer"
+import { PptxGenSlideMaker } from "./PptxGenSlideMaker.js"
+// import { Presenter } from "./Presenter.js"
 
-import preyerFile from './resources/eucharistic-prayers/viii.json'
+// import preyerFile from './resources/eucharistic-prayers/viii.json'
+// import { lyrics } from './resources/lyrics.json'
 
 const powerpoint = new PptxGenSlideMaker()
-const presenter = new Presenter(powerpoint)
-const prayer = new Prayer(presenter)
+// const presenter = new Presenter(powerpoint)
+// const prayer = new Prayer(presenter)
 
 powerpoint.makeFirstSlide()
 
-prayer.writeEucharisticPrayer(preyerFile)
+// presenter.writeLyrics(lyrics)
+// prayer.writeEucharisticPrayer(preyerFile)
 
 powerpoint.showSlides()

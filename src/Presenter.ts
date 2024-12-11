@@ -1,4 +1,4 @@
-import { SlideMaker } from "./SlideMaker"
+import { SlideMaker } from "./SlideMaker.js"
 
 export class Presenter {
   private readonly VERSE_SEPARATOR = '\n\n'

@@ -1,4 +1,4 @@
-import { SlideMaker } from "./SlideMaker"
+import { SlideMaker } from "./SlideMaker.js"
 
 export class TextSlideMaker extends SlideMaker {
   private readonly TOP_LEFT_CORNER_CHAR = "┌"
@@ -24,6 +24,10 @@ export class TextSlideMaker extends SlideMaker {
 
   public writeText(text: string){
     this.slides.push(text)
+  }
+
+  public addBlankSlide(): void {
+    this.slides.push('')
   }
 
   public getSlideHeight() {
