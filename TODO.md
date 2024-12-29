@@ -1,4 +1,4 @@
-# To - Do
+# To Do
 
 - Classe pra criar slides das partes da missa
   - Slide inicial
