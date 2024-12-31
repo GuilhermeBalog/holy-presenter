@@ -48,10 +48,11 @@ export class PptxGenSlideMaker extends SlideMaker {
       y: "2.5%",
       w: "95%",
       h: "95%",
-      color: "333333",
+      color: "000000",
       lang: "pt-BR",
       fontFace: "Arial",
       fontSize: this.FONT_SIZE,
+      align: "center",
       autoFit: true,
     })
   }
