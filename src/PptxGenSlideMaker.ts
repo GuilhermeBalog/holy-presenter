@@ -3,7 +3,7 @@ import PptxGen from "pptxgenjs";
 import { SlideMaker } from "./SlideMaker.js";
 
 export class PptxGenSlideMaker extends SlideMaker {
-  private readonly FONT_SIZE = 55
+  private readonly FONT_SIZE = 96
   private readonly SENTENCE_SEPARATOR = '\n'
 
   private presentation: PptxGen
