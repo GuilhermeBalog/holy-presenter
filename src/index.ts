@@ -1,5 +1,5 @@
 // import { Prayer } from "./Prayer"
-import { PptxGenSlideMaker } from "./PptxGenSlideMaker.js"
+import { PptxGenSlideMaker } from "./lib/PptxGenSlideMaker.js"
 // import { Presenter } from "./Presenter.js"
 
 // import preyerFile from './resources/eucharistic-prayers/viii.json'

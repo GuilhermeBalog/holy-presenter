@@ -1,4 +1,4 @@
-import { SlideMaker } from "./SlideMaker.js"
+import { SlideMaker } from "./SlideMaker"
 
 export class TextSlideMaker extends SlideMaker {
   private readonly TOP_LEFT_CORNER_CHAR = "┌"

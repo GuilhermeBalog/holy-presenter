@@ -8,6 +8,9 @@ export abstract class SlideMaker {
   abstract getTextHeigh(text: string): number
 
   public doesTextFit(text: string) {
-    return this.getTextHeigh(text) <= this.getSlideHeight()
+    const textHeight = this.getTextHeigh(text);
+    const slideHeight = this.getSlideHeight();
+
+    return textHeight <= slideHeight
   }
 }

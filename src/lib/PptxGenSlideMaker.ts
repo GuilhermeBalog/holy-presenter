@@ -1,9 +1,9 @@
 import PptxGen from "pptxgenjs";
 
-import { SlideMaker } from "./SlideMaker.js";
+import { SlideMaker } from "./SlideMaker";
 
 export class PptxGenSlideMaker extends SlideMaker {
-  private readonly FONT_SIZE = 55
+  private readonly FONT_SIZE = 96
   private readonly SENTENCE_SEPARATOR = '\n'
 
   private presentation: PptxGen
@@ -18,6 +18,18 @@ export class PptxGenSlideMaker extends SlideMaker {
     const { width, height } = this.normalizeDimensions(presentationLayout)
     this.width = width
     this.height = height
+  }
+
+  public add(text: string) {
+    // const id = 'tabLargeCellText'
+    // const table = document.createElement('table');
+    // table.setAttribute('id', id)
+    // table.style.fontSize = `${this.FONT_SIZE}px`
+    // table.innerHTML = `<tr><td>${text}</td></tr>`;
+    // document.body.append(table);
+    // this.presentation.tableToSlides(id)
+    // this.presentation.tableToSlides(id, { autoPage: true, fontSize: this.FONT_SIZE, verbose: false })
+    // document.body.removeChild(table)
   }
 
   private normalizeDimensions(layout: PptxGen.PresLayout) {
@@ -99,10 +111,13 @@ export class PptxGenSlideMaker extends SlideMaker {
   }
 
   getTextHeigh(text: string) {
-    const numberOfLines = text
-      .split(this.SENTENCE_SEPARATOR)
+    const lines = text.split(this.SENTENCE_SEPARATOR);
+
+    const numberOfLines = lines
       .reduce((total, sentence) => {
-        return total + Math.ceil(sentence.length * this.FONT_SIZE / this.width)
+        const heightInLines = Math.ceil(sentence.length * this.FONT_SIZE / this.width);
+
+        return total + heightInLines
       }, 0);
 
     return numberOfLines * this.FONT_SIZE;
