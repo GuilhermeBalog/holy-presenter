@@ -23,7 +23,7 @@
     "jest": "^27.2.4",
     "ts-node-dev": "^1.1.8",
     "typescript": "^5.5.4",
-    "vite": "^5.4.2"
+    "vite": "^5.4.12"
   },
   "dependencies": {
     "pptxgenjs": "^3.12.0"
